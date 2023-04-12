@@ -1,0 +1,532 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+     integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.3.0/font/bootstrap-icons.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.5.0/font/bootstrap-icons.css">
+    <link href="style.css" rel="stylesheet"> 
+    <!--CDN link for tracking leave-->
+     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <link rel="stylesheet" href="styles.css">
+    <title>HOD Dashboard</title>
+   <style>
+        /* dropdown */
+        .dropdown-menu li{
+            position:relative;
+        }
+
+        .dropdown-menu .submenu{
+            display:none;
+            position:absolute;
+            left:100%;
+            top:30px;
+            color:blue;
+        }
+
+        .dropdown-menu>li:hover>.submenu{
+            display:block;
+        }
+
+        .down {
+            position: relative;
+            display: inline-block;
+        }
+
+       .dropdown-menu {
+           display: none;
+           position: absolute;
+           background-color: #f9f9f9;
+           min-width: 160px;
+           box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+           padding: 12px 16px;
+           z-index: 1;
+        }
+
+      .down:hover .dropdown-menu {
+           display: block;
+       }
+
+   
+
+        .img-responsive{
+            max-height:15%;
+            max-width:15%;
+            margin-right: 0;
+        }
+        :root{
+            --main-bg-color: #009d63;
+            --main-text-color:#009d63;
+            --second-text-color:#bbbec5;
+            --second-bg-color:#c1efde;
+        }
+        .primary-text{
+            color:var(--main-text-color);
+        }
+        .second-text{
+            color: var(--second-text-color);
+        }
+        .primary-bg{
+            background-color: var(--main-bg-color);
+        }
+        .secondary-bg{
+            background-color: var(--second-bg-color);
+        }
+        .rounded-full{
+            border-radius:100%;
+        }
+        #wrapper{
+            overflow-x:hidden;
+            background-image:linear-gradient(
+                to right,
+                #baf3d7,
+                #c2f5de,
+                #cbf7e4,
+                #d4f8ea,
+                #ddfaef
+            );
+        }
+        #sidebar-wrapper{
+            min-height:100vh;
+            margin-left: -15rem;
+            transition:margin 0.25s ease-out;
+        }
+
+        #sidebar-wrapper .sidebar-heading{
+            padding:0.875rem 1.25rem;
+            font-size:1.2rem;
+        }
+        #sidebar-wrapper .list-group{
+            width:15rem;
+        }
+        #page-content-wrapper{
+            min-width:100vw;
+        }
+        #wrapper.toggled #sidebar-wrapper{
+            margin-left:0;
+        }
+        #menu-toggle{
+            cursor:pointer;
+        }
+        .list-group-item{
+            border:none;
+            padding: 20px 30px;
+        }
+        .list-group-item-active{
+            background-color:transparent;
+            color: var(--main-text-color);
+            font-weight:bold;
+            border:none;
+        }
+        @media (min-width:768px){
+            #sidebar-wrapper{
+                margin-left:0;
+            }
+            #page-content-wrapper{
+                min-width:0;
+                width:100%;
+            }
+            #wrapper.toggled #sidebar-wrapper{
+                margin-left:-15rem;
+            }
+        }
+
+        span{
+            color:white;
+        }
+    </style>
+    <!--Leave requests, Accepted leave requests-->
+    <style>
+        #a1, #a2, #a3{
+                margin:0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: sans-serif;
+            }
+            #a1, #a2, #a3{
+                min-height: 100vh;
+                background: linear-gradient(rgb(228, 255, 253), #baf3d7);
+                display:flex;
+                justify-content: center;
+                align-items: center;
+            }
+            table{
+                width: 100%;
+            }
+            main.table {
+                width: 82vw;
+                height: 90vh;
+                background-color: #fff5;
+                box-shadow:0 .04rem .8rem #0005;
+                border-radius: .8rem;
+                overflow: hidden;
+            }
+            .table__header{
+                width:100%;
+                height:10%;
+                background-color: #fff4;
+                padding: .8rem 1rem;
+            }
+            .table__body{
+                width: 95%;
+                max-height: calc(89% - .8rem);
+                background-color: #fffb;
+                margin: .8rem auto;
+                border-radius: .6rem;
+                overflow: auto;
+            }
+            .table__body::-webkit-scrollbar{
+                width: 0.5rem;
+                height:0.5rem;
+            }
+            .table__body::-webkit-scrollbar-thumb{
+                border-radius: .5rem;
+                background-color: #0004;
+                visibility: hidden;
+            }
+            table, th, td{
+                padding: 1rem;
+                border-collapse: collapse;
+            }
+            thead th{
+                position: sticky;
+                top:0;
+                left:0;
+                background-color: #d5d1defe;
+               
+            }
+            tbody tr:nth-child(even){
+                background-color: #0000000b;
+                
+            }
+            tbody tr:hover{
+                background-color: #fff6;
+                
+            }
+            .a{
+                background-color: rgb(7, 185, 7);
+                padding: 7%;
+                font-size: 14px;
+                font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+               
+                }
+            .r{
+                background-color: rgb(203, 0, 0);
+                padding: 8.5%;
+                margin-top: 5%;
+                font-size: 14px;
+                font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+            }
+            .a:hover{
+                background-color: green;
+            }
+            .r:hover{
+                background-color: rgb(169, 0, 0);
+            }
+            tbody input{
+                border: 0;
+                /*text-align: center;*/
+            }
+
+           
+           
+    </style>
+</head>
+<body>
+<!-- nav bar -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top h-78">
+    <div class="container">
+        <img src="{% static 'images2023\Banasthali_Vidyapeeth_Logo (1).png' %}" alt="Logo" width="60" height="60"><span>E</span>
+        <a class="navbar-brand" href="#" style=font-size:30px;>Banasthali Vidyapith</a> <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://www.banasthali.org/banasthali/wcms/en/home/" target="_main">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://www.banasthali.org/banasthali/wcms/en/home/lower-menu/campus-tour/index.html" target="_blank">Campus&Facilities</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://banasthali.org/banasthali/wcms/en/home/school-education/index.html">Acadamics</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'logout2'%}">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<br><br><br>
+
+    <div class="d-flex" id="wrapper">
+
+        <!--Sidebar starts here-->
+
+        <div class="bg-white" id="sidebar-wrapper">
+           
+            <div class="pic sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase">
+                <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-layout-text-sidebar-reverse fa-sm fw-bold" id="menu-toggle" onclick="hide('menu-toggle')" viewBox="0 0 16 16">
+                    <path d="M12.5 3a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5zm0 3a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5zm.5 3.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5zm-.5 2.5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5z"/>
+                    <path d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2zM4 1v14H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h2zm1 0h9a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5V1z"/>
+                  </svg> Dashboard
+            </div>
+
+            <div class="list-group list-group-flush my-3">
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold" onclick="showForm1('a1')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-fill me-2" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd" d="M10 1.5a.5.5 0 0 0-.5-.5h-3a.5.5 0 0 0-.5.5v1a.5.5 0 0 0 .5.5h3a.5.5 0 0 0 .5-.5v-1Zm-5 0A1.5 1.5 0 0 1 6.5 0h3A1.5 1.5 0 0 1 11 1.5v1A1.5 1.5 0 0 1 9.5 4h-3A1.5 1.5 0 0 1 5 2.5v-1Zm-2 0h1v1A2.5 2.5 0 0 0 6.5 5h3A2.5 2.5 0 0 0 12 2.5v-1h1a2 2 0 0 1 2 2V14a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V3.5a2 2 0 0 1 2-2Z"/>
+                      </svg>Leave Requests
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold" onclick="showForm2('a2')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-check-fill me-2" viewBox="0 0 16 16">
+                        <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z"/>
+                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1Zm6.854 7.354-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 0 1 .708-.708L7.5 10.793l2.646-2.647a.5.5 0 0 1 .708.708Z"/>
+                      </svg>Accepted Requests 
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold" onclick="showForm3('a3')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clipboard-x-fill me-2" viewBox="0 0 16 16">
+                        <path d="M6.5 0A1.5 1.5 0 0 0 5 1.5v1A1.5 1.5 0 0 0 6.5 4h3A1.5 1.5 0 0 0 11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3Zm3 1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1-.5-.5v-1a.5.5 0 0 1 .5-.5h3Z"/>
+                        <path d="M4 1.5H3a2 2 0 0 0-2 2V14a2 2 0 0 0 2 2h10a2 2 0 0 0 2-2V3.5a2 2 0 0 0-2-2h-1v1A2.5 2.5 0 0 1 9.5 5h-3A2.5 2.5 0 0 1 4 2.5v-1Zm4 7.793 1.146-1.147a.5.5 0 1 1 .708.708L8.707 10l1.147 1.146a.5.5 0 0 1-.708.708L8 10.707l-1.146 1.147a.5.5 0 0 1-.708-.708L7.293 10 6.146 8.854a.5.5 0 1 1 .708-.708L8 9.293Z"/>
+                      </svg>Rejected Requests
+                </a>
+            </div>
+
+        </div>
+        <!--Sidebar ends here-->
+        <div id="page-content-wrapper">
+            <br>
+            <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle1" onclick="show('menu-toggle1')"></i>
+                </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                </button>
+            </nav>
+
+            <div class="container-fluid px-4 bg-white" id="a1" >
+                <!--<h3>Leave requests</h3>-->
+
+                <main class="table">
+                    <section class="table__header">
+                        <h1>Leave Requests</h1>
+                    </section>
+                    <section class="table__body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    
+                                    <th> Smartcard ID</th>
+                                    <th> Name</th>
+                                    <th> From date</th>
+                                    <th> To date</th>
+                                    <th> No. of Days</th>
+                                    <th> Reason</th>
+                                    <th> Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in data %}
+                                <tr>
+                                
+                                    
+                                    <td><input style="width:97px"  type=text placeholder="smartcard id" value="{{i.s_id}}" disabled></td>
+                                    <td><input  style="width:150px" type=text placeholder="name" value="{{i.s_name}}" disabled></td>
+                                    <td><input  style="width:120px" type=text placeholder="start date" value="{{i.s_date}}" disabled></td>
+                                    <td><input  style="width:95px" type=text placeholder="end date" value="{{i.e_date}}" disabled></td>
+                                    <td><input  style="width:50px" type=number placeholder="no. of days" value="{{i.nod}}" disabled></td>
+                                    <td><input  style="width:170px" type=text paceholder="Reason" value="{{i.reason}}" disabled></td>
+                                    <td>
+                                   {% if i.is_approved == 0 %}
+                                    <a href="{% url 'stud' i_id=i.id %}" class="a" type="submit" value="True" style="background-color:green;border:2px solid black; font-weight:bold;color:black;text-decoration:none;width:75px;text-align:center"  name="is_approved">Accept</a> 
+                                    <!--<a href="mailto:shreyakaushal14@gmail.com?subject=Reason for leave rejection" target="_blank " id="anchor"><button class="r" onclick="openform()" value="False">Reject</button></a>-->
+                                    <a href="{% url 'stude' i__id=i.id %}" class="r" type="submit" value="False" style="background-color:red;border:2px solid black; font-weight:bold;color:black;text-decoration:none;width:75px;text-align:center" name="is_approved">Reject</a>
+                                        <!--<button class="btn btn-warning" disabled="disabled">Rejected</button>-->
+                                    {% elif i.is_approved == 1 %}
+                                        {% comment %} <button  class="btn btn-danger" disabled="disabled">Accepted</button> {% endcomment %}
+                                        <button  style="background-color:LimeGreen;text-shadow:1px 1px black;border-radius:6px; border:2px solid black; font-weight:bold;color:cornsilk" class="a" disabled="disabled">Accepted</button>
+                                    {% else %}
+                                        {% comment %} <button class="btn btn-warning" disabled="disabled">Rejected</button> {% endcomment %}
+                                        <button style="background-color:#dd7146;text-shadow:1px 1px black;border-radius:6px;border:2px solid black; font-weight:bold;color:cornsilk" class="r" disabled="disabled">Rejected</button>
+                                    {% endif %}
+                                   
+                                    
+                                    </td>
+                                
+                                {% endfor %}</tr>
+                            </tbody>
+                        </table>
+                    </section>
+                </main>
+
+            </div>
+              
+            <div id="a2" class="container-fluid px-4 bg-white" style="display:none">
+                <!--<h3>Accepted requests</h3>-->
+
+                <main class="table">
+                    <section class="table__header">
+                        <h1>Accepted Leave Requests</h1>
+                    </section>
+                    <section class="table__body">
+                        <table>
+                            <thead>
+                                
+                                <tr>
+                                    
+                                    <th> Smartcard ID</th>
+                                    <th> Name</th>
+                                    <th> From date</th>
+                                    <th> To date</th>
+                                    <th> No. of Days</th>
+                                    <th>Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in data %}
+                                <tr>
+                                    {% if i.is_approved == 1 %}
+                                    <td><input style="width:97px" type=text placeholder="smartcard id" value="{{i.s_id}}" disabled></td>
+                                    <td><input style="width:150px" type=text placeholder="name" value="{{i.s_name}}" disabled></td>
+                                    <td><input style="width:120px" type=text placeholder="start date" value="{{i.s_date}}" disabled></td>
+                                    <td><input style="width:95px" type=text placeholder="end date" value="{{i.e_date}}" disabled></td>
+                                    <td><input style="width:50px" type=number placeholder="no. of days" value="{{i.nod}}" disabled></td>
+                                    <td><input style="width:170px" type=text paceholder="Reason" value="{{i.reason}}" disabled></td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </section>
+                </main>
+
+            </div>
+
+            <div id="a3" class="container-fluid px-4 bg-white" style="display:none">
+                <!--<h3>Rejected requests</h3>-->
+
+                <main class="table">
+                    <section class="table__header">
+                        <h1>Rejected Leave Requests</h1>
+                    </section>
+                    <section class="table__body">
+                        <table>
+                            <thead>
+                                
+                                <tr>
+                                    
+                                    <th> Smartcard ID</th>
+                                    <th> Name</th>
+                                    <th> From date</th>
+                                    <th> To date</th>
+                                    <th> No. of Days</th>
+                                    <th>Reason</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for i in data %}
+                                <tr>
+                                    {% if i.is_approved == 2 %}
+                                    <td><input style="width:97px" type=text placeholder="smartcard id" value="{{i.s_id}}" disabled></td>
+                                    <td><input style="width:150px" type=text placeholder="name" value="{{i.s_name}}" disabled></td>
+                                    <td><input style="width:120px" type=text placeholder="start date" value="{{i.s_date}}" disabled></td>
+                                    <td><input style="width:95px" type=text placeholder="end date" value="{{i.e_date}}" disabled></td>
+                                    <td><input style="width:50px" type=number placeholder="no. of days" value="{{i.nod}}" disabled></td>
+                                    <td><input style="width:170px" type=text paceholder="Reason" value="{{i.reason}}" disabled></td>
+                                    {% endif %}
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </section>
+                </main>
+
+            </div>
+
+            {% comment %} <div id="a4" class="container-fluid px-4 bg-white" style="display:none">
+                <h3>Track Leave</h3>
+            </div>
+
+            <div id="a5" class="container-fluid px-4 bg-white" style="display:none">
+                <h3>Visitor slip generation</h3>
+            </div> {% endcomment %}
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        var el =document.getElementById("wrapper")
+        var toggleButton = document.getElementById("menu-toggle");
+        var toggleButton1 = document.getElementById("menu-toggle1")
+
+        toggleButton.onclick = function() {
+            el.classList.toggle("toggled")
+        }
+        toggleButton1.onclick = function() {
+            el.classList.toggle("toggled")
+            $(".smoothScroll").on('click',function(){
+            $(".menu-hide").trigger("click");
+            });
+        }
+    </script>
+
+    <script>
+        var showForm1 = function(id){
+        document.getElementById(id).style.display = '';
+        document.getElementById("a2").style.display= "none";
+        document.getElementById("a3").style.display= "none";
+        }
+
+        var showForm2 = function(id){
+        document.getElementById(id).style.display = '';
+        document.getElementById("a1").style.display= "none";
+        document.getElementById("a3").style.display= "none";
+        }
+
+        var showForm3 = function(id){
+        document.getElementById(id).style.display = '';
+        document.getElementById("a1").style.display= "none";
+        document.getElementById("a2").style.display= "none";
+        }
+    </script>
+    <script>
+        var hide = function(id){
+        document.getElementById(id).style.visibility = "hidden";
+        document.getElementById("menu-toggle1").style.visibility = "visible";
+        }
+
+        var show = function(id){
+        document.getElementById(id).style.visibility = "hidden";
+        document.getElementById("menu-toggle").style.visibility = "visible";
+        }
+    </script>
+</body>
+</html>

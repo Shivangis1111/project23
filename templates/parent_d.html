@@ -1,0 +1,1060 @@
+
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+     integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> 
+    <!--CDN link for tracking leave-->
+     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+     
+
+    <link rel="stylesheet" href="styles.css">
+    <title>Parent Dashboard</title>
+
+    <!--visitor's slip-->
+    <link href="vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+    <link href="vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+    <!-- Font special for pages-->
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,100i,200,200i,300,300i,400,400i,500,500i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+    <!-- Vendor CSS-->
+    <link href="vendor/select2/select2.min.css" rel="stylesheet" media="all">
+    <link href="vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+
+    <!-- Main CSS-->
+    <!--<link href="css/main.css" rel="stylesheet" media="all">-->
+    <!--visitor's slip-->
+  
+    {% comment %} <link href="{% static 'visitor.css' %}" rel="stylesheet" type="text/css"> {% endcomment %}
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/visitor.css' %}"/>
+
+   
+   <style>
+/* dropdown */
+.dropdown-menu li{
+            position:relative;
+        }
+
+        .dropdown-menu .submenu{
+            display:none;
+            position:absolute;
+            left:100%;
+            top:30px;
+            color:blue;
+        }
+
+        .dropdown-menu>li:hover>.submenu{
+            display:block;
+        }
+
+        .down {
+            position: relative;
+            display: inline-block;
+        }
+
+       .dropdown-menu {
+           display: none;
+           position: absolute;
+           background-color: #f9f9f9;
+           min-width: 160px;
+           box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+           padding: 12px 16px;
+           z-index: 1;
+        }
+
+      .down:hover .dropdown-menu {
+           display: block;
+       }
+
+   
+
+        .img-responsive{
+            max-height:15%;
+            max-width:15%;
+            margin-right: 0;
+        }
+        :root{
+            --main-bg-color: #009d63;
+            --main-text-color:#009d63;
+            --second-text-color:#bbbec5;
+            --second-bg-color:#c1efde;
+        }
+        .primary-text{
+            color:var(--main-text-color);
+        }
+        .second-text{
+            color: var(--second-text-color);
+        }
+        .primary-bg{
+            background-color: var(--main-bg-color);
+        }
+        .secondary-bg{
+            background-color: var(--second-bg-color);
+        }
+        .rounded-full{
+            border-radius:100%;
+        }
+        #wrapper{
+            overflow-x:hidden;
+           /* background-image:linear-gradient(
+                to right,
+                #baf3d7,
+                #c2f5de,
+                #cbf7e4,
+                #d4f8ea,
+                #ddfaef
+            );*/
+            background-image: linear-gradient(rgb(246, 222, 11),rgb(247, 245, 252));
+        }
+        #sidebar-wrapper{
+            min-height:100vh;
+            margin-left: -15rem;
+            transition:margin 0.25s ease-out;
+        }
+
+        #sidebar-wrapper .sidebar-heading{
+            padding:0.875rem 1.25rem;
+            font-size:1.2rem;
+        }
+        #sidebar-wrapper .list-group{
+            width:15rem;
+        }
+        #page-content-wrapper{
+            min-width:100vw;
+        }
+        #wrapper.toggled #sidebar-wrapper{
+            margin-left:0;
+        }
+        #menu-toggle{
+            cursor:pointer;
+        }
+        .list-group-item{
+            border:none;
+            padding: 20px 30px;
+        }
+        .list-group-item-active{
+            background-color:transparent;
+            color: var(--main-text-color);
+            font-weight:bold;
+            border:none;
+        }
+        @media (min-width:768px){
+            #sidebar-wrapper{
+                margin-left:0;
+            }
+            #page-content-wrapper{
+                min-width:0;
+                width:100%;
+            }
+            #wrapper.toggled #sidebar-wrapper{
+                margin-left:-15rem;
+            }
+        }
+
+        span{
+            color:white;
+        }
+    </style>
+    <!--student profile-->
+    <style>
+        #a1{
+                padding:10px;
+                display:flex;
+                height:83%;
+                justify-content: center;
+                align-items: center;
+                background: radial-gradient(#fcffc7 10%, rgb(246, 222, 11) 100%);
+                overflow-y: hidden;
+                
+            }
+            .box{
+                position: relative;
+                top:30%;
+                left:30%;
+                transform: translate(-50%,-50%);
+                max-width: 700px;
+                /* min-height: 900vh;  */
+                background: #fff;
+                border-radius:4px;
+                padding:27 px 30px;
+            }
+            .box .titre{
+                position:relative;
+                font-size: 25px;
+                font-weight: 500;
+                color: #11347a;
+                font-weight: bolder;
+                font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+            }
+            .box .titre::before{
+                content:"";
+                position: absolute;
+                left:0;
+                bottom: 0;
+                background: #12c6c5;
+                width:60px;
+                height:4px;
+            }
+            .box form .user-details{
+                display:flex;
+                flex-wrap:wrap;
+                justify-content:center;
+                margin:20px 0 12px 0;
+            }
+            form .user-details .input-box{
+                width: calc(100% / 2 -20px);
+                margin:15px;
+            }
+            .user-details .input-box .details{
+                display:block;
+                margin-bottom:5px;
+                font-weight:bold;
+                font-size: large;
+                color:#00249b;
+            }
+            .user-details .input-box input{
+                font-size: 16px;
+                width:100%;
+                height:40px;
+                border-radius: 5px;
+                border: solid #ccc 1px;
+                outline:none;
+                border-bottom-width: 2px;
+                transition:all 0.3s ease;
+                padding: 2%;
+            }
+            .user-details .input-box input:focus,
+            .user-details .input-box input:valid{
+                border-color:#12c6c5;
+            }
+
+
+           
+    </style>
+    <!--leave tracking-->
+    <style>
+        /* #a4{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        } */
+        @font-face {
+            font-family: pop;
+            src: url(./Fonts/Poppins-Medium.ttf);
+        }
+        .main2{
+            width:100%;
+            height: 80vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-family: pop;
+            flex-direction: column;
+        }
+        .head11{
+            text-align: center;
+        }
+        .head_1{
+            font-size: 30px;
+            font-weight:600;
+            color:#333;
+        }
+        .head_1 span{
+            color: #4a0cbc;
+        }
+        .main2 ul{
+            display:flex;
+            margin-top:80px; 
+        }
+        .main2 ul li{
+            list-style: none;
+            display:flex;
+            flex-direction: column;
+            align-items:center;
+            
+            
+            color:#0106ad;
+        }
+        .main2 ul li .icon{
+            font-size: 35px;
+            color:#0106ad;
+            margin:0 60px;
+        }
+        .main2 ul li .text{
+            font-size: 14px;
+            font-weight: 600;
+            color: #4d32ff;
+        }
+        /*Progress div css*/
+        .main2 ul li .progress1{
+            width:30px;
+            height:30px;
+            border-radius: 50%;
+            background-color: rgba(68,68,68,0.781);
+            margin: 14px 0;
+            display:grid;
+            place-items:center;
+            color:#fff;
+            position: relative;
+            cursor: pointer;
+        }
+        .main2 .progress1::after{
+            content:'';
+            position:absolute;
+            width:125px;
+            height:5px;
+            background-color: rgba(68,68,68,0.781);
+            right:30px;
+        }
+        .main2 .one::after{
+            width:0;
+            height:0;
+        }
+        .main2 ul li .progress1 .uil{
+            display:none;
+        }
+        .main2 ul li .progress1 p{
+            font-size: 13px;
+        }
+        /*Active CSS*/
+        .main2 ul li .active{
+            background-color: rgb(59, 56, 210);
+        }
+        .main2 li .active::after{
+            background-color: rgb(59, 56, 210);
+        }
+        .main2 ul li .active p{
+            display: none;
+        }
+        .main2 ul li .active .uil{
+            font-size: 20px;
+            display: flex;
+        }
+        /* Responsive CSS*/
+        @media(max-width: 1030px){
+            .main2 ul{
+                flex-direction:column;
+            }
+            .main2  ul li{
+                flex-direction: row;
+            }
+            .main2 .progress1{
+            margin:0 30px;
+            }
+            .main2 .progress1::after{
+                width:5px;
+                height:55px;
+                bottom: 30px;
+                left: 50%;
+                transform:translateX(-50%);
+                z-index: -1;
+                /* background-color: rgba(68,68,68,0.781); */
+            }
+            .main2 .one::after{
+                height:0;
+            }
+            .main2 ul li .icon{
+                margin:15px 0;
+            }
+            @media(max-width:600px){
+                .main2 .head11 .head_1{
+                    font-size:24px;
+                }
+            }
+        }
+    </style>
+    
+    <!--Leave History-->
+    <style>
+        #a3{
+            margin:0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        #a3{
+            min-height: 100vh;
+            background: linear-gradient(rgb(244, 240, 174), rgb(254, 224, 92));
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #table1{
+            width: 100%;
+        }
+        main.table {
+            width: 82vw;
+            height: 90vh;
+            background-color: #fff5;
+            box-shadow:0 .04rem .8rem #0005;
+            border-radius: .8rem;
+            overflow: hidden;
+        }
+        .table__header{
+            width:100%;
+            height:10%;
+            background-color: #fff4;
+            padding: .8rem 1rem;
+        }
+        .table__body{
+            width: 95%;
+            max-height: calc(89% - .8rem);
+            background-color: #fffb;
+            margin: .8rem auto;
+            border-radius: .6rem;
+            overflow: auto;
+        }
+        .table__body::-webkit-scrollbar{
+            width: 0.5rem;
+            height:0.5rem;
+        }
+        .table__body::-webkit-scrollbar-thumb{
+            border-radius: .5rem;
+            background-color: #0004;
+            visibility: hidden;
+        }
+        #table1, th, td{
+            padding: 1rem;
+            border-collapse: collapse;
+        }
+        thead th{
+            position: sticky;
+            top:0;
+            left:0;
+            background-color: #d5d1defe;
+        }
+        tbody tr:nth-child(even){
+            background-color: #0000000b;
+        }
+        tbody tr:hover{
+            background-color: #fff6;
+        }
+        .a{
+            background-color: rgb(7, 185, 7);
+            padding: 7%;
+            font-size: 14px;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+           
+            }
+        .r{
+            background-color: rgb(203, 0, 0);
+            padding: 8.5%;
+            margin-top: 5%;
+            font-size: 14px;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        .a:hover{
+            background-color: green;
+        }
+        .r:hover{
+            background-color: rgb(169, 0, 0);
+        }
+        tbody input{
+            border: 0;
+            /*text-align: center;*/
+        }
+        tbody div{
+            height:10%;
+            width:115%;
+            background-color: rgb(19, 190, 19);
+            text-align: center;
+            border-radius: 7%;
+            color: white;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+    </style>
+    <!--Leave tracking-->
+    <style>
+        #a4{
+            margin:0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: sans-serif;
+        }
+        #a4{
+            min-height: 100vh;
+            background: linear-gradient(rgb(244, 240, 174), rgb(254, 224, 92));
+            display:flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #table1{
+            width: 100%;
+        }
+        main.table {
+            width: 82vw;
+            height: 90vh;
+            background-color: #fff5;
+            box-shadow:0 .04rem .8rem #0005;
+            border-radius: .8rem;
+            overflow: hidden;
+        }
+        .table__header{
+            width:100%;
+            height:10%;
+            background-color: #fff4;
+            padding: .8rem 1rem;
+        }
+        .table__body{
+            width: 95%;
+            max-height: calc(89% - .8rem);
+            background-color: #fffb;
+            margin: .8rem auto;
+            border-radius: .6rem;
+            overflow: auto;
+        }
+        .table__body::-webkit-scrollbar{
+            width: 0.5rem;
+            height:0.5rem;
+        }
+        .table__body::-webkit-scrollbar-thumb{
+            border-radius: .5rem;
+            background-color: #0004;
+            visibility: hidden;
+        }
+        #table1, th, td{
+            padding: 1rem;
+            border-collapse: collapse;
+        }
+        thead th{
+            position: sticky;
+            top:0;
+            left:0;
+            background-color: #d5d1defe;
+        }
+        tbody tr:nth-child(even){
+            background-color: #0000000b;
+        }
+        tbody tr:hover{
+            background-color: #fff6;
+        }
+        .a{
+            background-color: rgb(7, 185, 7);
+            padding: 7%;
+            font-size: 14px;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+           
+            }
+        .r{
+            background-color: rgb(203, 0, 0);
+            padding: 8.5%;
+            margin-top: 5%;
+            font-size: 14px;
+            font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+        }
+        .a:hover{
+            background-color: green;
+        }
+        .r:hover{
+            background-color: rgb(169, 0, 0);
+        }
+        tbody input{
+            border: 0;
+            /*text-align: center;*/
+        }
+        tbody div{
+            height:10%;
+            width:115%;
+            background-color: rgb(19, 190, 19);
+            text-align: center;
+            border-radius: 7%;
+            color: white;
+        }
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <!-- nav bar -->
+    
+    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top h-78">
+        <div class="container">
+            <img src="{% static 'images2023\Banasthali_Vidyapeeth_Logo (1).png' %}" alt="Logo" width="60" height="60"><span>E</span>
+            <a class="navbar-brand" href="#" style=font-size:30px;>Banasthali Vidyapith</a> <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.banasthali.org/banasthali/wcms/en/home/" target="_main">About Us</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.banasthali.org/banasthali/wcms/en/home/lower-menu/campus-tour/index.html" target="_blank">Campus&Facilities</a>
+                    </li>
+    
+                    
+    
+    
+    
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://banasthali.org/banasthali/wcms/en/home/school-education/index.html">Acadamics</a>
+                    </li>
+                    
+                    <li class="nav-item">
+                        <a class="nav-link" href="http://www.banasthali.org/banasthali/wcms/en/home/lower-menu/contact_us/index.html;jsessionid=F1CF566483D58F957ABD307498BB0888">Contact</a>
+                    </li>
+    
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'logout'%}">Logout</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <br><br><br>
+    
+        <div class="d-flex" id="wrapper">
+    
+            <!--Sidebar starts here-->
+    
+            <div class="bg-white" id="sidebar-wrapper">
+               
+                <div class="pic sidebar-heading text-center py-15 primary-text fs-4 fw-bold text-uppercase">
+                    <!-- <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle" onclick="hide('menu-toggle')" ></i> Dashboard -->
+                    <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-layout-text-sidebar-reverse fa-sm fw-bold" id="menu-toggle" onclick="hide('menu-toggle')" viewBox="0 0 16 16">
+                        <path d="M12.5 3a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5zm0 3a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5zm.5 3.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5zm-.5 2.5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5z"/>
+                        <path d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2zM4 1v14H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h2zm1 0h9a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5V1z"/>
+                      </svg> Dashboard
+                </div>
+    
+                <div class="list-group list-group-flush my-3 ">
+                    <!-- <a href="#" class="list-group-item list-group-item-action bg-transparent second-text active">
+                        <i class="fas fa-tachometer-alt me-2"></i>Banasthali Vidyapith
+                    </a> -->
+                    <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold" onclick="showForm1('a1')">
+                       
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle-fill me-2" viewBox="0 0 16 16">
+                            <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm.93-9.412-1 4.705c-.07.34.029.533.304.533.194 0 .487-.07.686-.246l-.088.416c-.287.346-.92.598-1.465.598-.703 0-1.002-.422-.808-1.319l.738-3.468c.064-.293.006-.399-.287-.47l-.451-.081.082-.381 2.29-.287zM8 5.5a1 1 0 1 1 0-2 1 1 0 0 1 0 2z"/>
+                          </svg>Student Information
+                    </a>
+                    <!-- <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold " onclick="showForm2('a2')">
+                        <i class="fas fa-chart-line me-2"></i>Apply leave
+                    </a> -->
+                    <a href="{% url 'leave'%}" class="list-group-item list-group-item-action bg-transparent second-text fw-bold ">
+                       
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-up-square-fill me-2" viewBox="0 0 16 16">
+                            <path d="M2 16a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2zm6.5-4.5V5.707l2.146 2.147a.5.5 0 0 0 .708-.708l-3-3a.5.5 0 0 0-.708 0l-3 3a.5.5 0 1 0 .708.708L7.5 5.707V11.5a.5.5 0 0 0 1 0z"/>
+                          </svg>Apply leave
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold" onclick="showForm3('a3')">
+                       
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-history me-2" viewBox="0 0 16 16">
+                            <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
+                            <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
+                            <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
+                          </svg>Leave History 
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold" onclick="showForm4('a4')">
+                       
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-ui-checks me-2" viewBox="0 0 16 16">
+                            <path d="M7 2.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zM2 1a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2zm0 8a2 2 0 0 0-2 2v2a2 2 0 0 0 2 2h2a2 2 0 0 0 2-2v-2a2 2 0 0 0-2-2H2zm.854-3.646a.5.5 0 0 1-.708 0l-1-1a.5.5 0 1 1 .708-.708l.646.647 1.646-1.647a.5.5 0 1 1 .708.708l-2 2zm0 8a.5.5 0 0 1-.708 0l-1-1a.5.5 0 0 1 .708-.708l.646.647 1.646-1.647a.5.5 0 0 1 .708.708l-2 2zM7 10.5a.5.5 0 0 1 .5-.5h7a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-7a.5.5 0 0 1-.5-.5v-1zm0-5a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5zm0 8a.5.5 0 0 1 .5-.5h5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1-.5-.5z"/>
+                          </svg>Track Leave
+                    </a>
+                    <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold" onclick="showForm5('a5')">
+                       
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-person-lines-fill me-2" viewBox="0 0 16 16">
+                            <path d="M6 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm-5 6s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zM11 3.5a.5.5 0 0 1 .5-.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 1-.5-.5zm.5 2.5a.5.5 0 0 0 0 1h4a.5.5 0 0 0 0-1h-4zm2 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2zm0 3a.5.5 0 0 0 0 1h2a.5.5 0 0 0 0-1h-2z"/>
+                          </svg>Visitor slip 
+                    </a>
+                   
+                </div>
+    
+            </div>
+            <!--Sidebar ends here-->
+            <div id="page-content-wrapper">
+                <!-- <br> -->
+                <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+                    <div class="d-flex align-items-center">
+                        <i class="fas fa-align-left primary-text py-90  fs-4 me-3" id="menu-toggle1" onclick="show('menu-toggle1')"></i>
+                        
+                    </div>
+    
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                            data-bs-target="#navbarSupportContent" aria-controls="navbarSupportedContent"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                            <!-- <span class="navbar-toggler-icon"></span> -->
+                    </button>
+                </nav>
+    
+                <div class="container-fluid px-4 bg-white" id="a1" >
+                    <!--<h3>Student's Information</h3>-->
+    
+                    <div class="box g-3 my-2">
+                        <div class="titre">Student's Profile</div>
+                    
+                    <form acion="">
+                    {% csrf_token %}
+                        <div class="user-details shadow-sm d-flex justify-content align-items-center">
+                            <div class="input-box">
+                            {% for i in data %}
+                                <span class="details">Student's name:</span>
+                                <input type="text" value="{{i.s_name}}" disabled>
+                            </div>
+                            <div class="input-box">
+                                <span class="details">Roll number:</span>
+                                <input type="text" placeholder="" value="{{i.s_roll}}" disabled>
+                            </div>
+                            <div class="input-box">
+                                <span class="details">Father's name:</span>
+                                <input type="text" placeholder="" value="{{i.p_name}}" disabled>
+                            </div>
+                            <div class="input-box">
+                                <span class="details">Smartcard ID:</span>
+                                <input type="text" placeholder="" value="{{i.s_id}}" disabled>
+                            </div>
+                            <div class="input-box">
+                                <span class="details">Class:</span>
+                                <input type="text" placeholder="" value="{{i.s_class}}" disabled>
+                            </div>
+                            <div class="input-box">
+                                <span class="details">Hostel name:</span>
+                                <input type="text" placeholder="" value="{{i.hostel}}" disabled>
+                            </div>
+                            <div class="input-box">
+                                <span class="details">Student's Pno. :</span>
+                                <input type="text" placeholder="" value="{{i.s_number}}" disabled>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </form>
+                </div>
+                </div>
+                  
+                <div id="a2" class="container-fluid px-4 bg-white" style="display:none">
+                    <h3>Apply Leave</h3>
+    
+                </div>
+    
+                <div id="a3" class="container-fluid px-4 bg-white" style="display:none">
+                    <!--<h3>Leave History</h3>-->
+
+                    <main class="table">
+                        <section class="table__header">
+                            <h1>Leave History</h1>
+                        </section>
+                        <section class="table__body">
+                            <table id="table1">
+                                <thead>
+                                    <tr>
+                                       
+                                        <th> Smartcard ID</th>
+                                        <th> Name</th>
+                                        <th> From date</th>
+                                        <th> To date</th>
+                                        <th> No. of Days</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in data1 %}
+                                    <tr>
+                                        {% if i.gatepass_generated == True %}
+                                        <td><input type=text placeholder="smartcard id" value="{{i.s_id}}" disabled></td>
+                                        <td><input type=text placeholder="name" value="{{i.s_name}}" disabled></td>
+                                        <td><input type=text placeholder="start date" value="{{i.s_date}}" disabled></td>
+                                        <td><input type=text placeholder="end date" value="{{i.e_date}}" disabled></td>
+                                        <td><input type=text placeholder="no od days" value="{{i.nod}}" disabled></td>
+                                        {% endif %}
+                                    {% endfor %}
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </section>
+                    </main>
+
+                </div>
+    
+                <div id="a4" class="container-fluid px-4 bg-white" style="display:none">
+                    <!--<h3>Track Leave</h3>-->
+<br>
+                    <main class="table" >
+                        <section class="table__header">
+                            <h1>Status</h1>
+                        </section>
+                        <section class="table__body">
+                            <table id="table1">
+                                <thead>
+                                    <tr>
+                                        <th>From date</th>
+                                        <th>To date</th>
+                                        <th>Reason</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in data1 %}
+                                <tr>
+                                    <td><input type=text placeholder="start date" value="{{i.s_date}}" disabled></td>
+                                    <td><input type=text placeholder="end date" value="{{i.e_date}}" disabled></td>
+                                    <td><input type=text paceholder="Reason" value="{{i.reason}}" disabled></td>
+                                    
+                                    <td>    
+                                        {% if i.is_approved == 1 and i.gatepass_generated == True %}  
+                                        <button style="background-color:green;width:98px;height:45px;text-shadow:1px 1px black;border-radius:6px;border:2px solid black; font-weight:bold;color:cornsilk" disabled="disabled">Approved</button>
+                                        {% elif i.is_approved == 2 %}
+                                        <button style="background-color:red;width:98px;height:45px;text-shadow:1px 1px black;border-radius:6px;border:2px solid black; font-weight:bold;color:cornsilk" disabled="disabled">Rejected</button>
+                                        {% else %}
+                                         <button  style="background-color:hotpink;height:45px;width:98px;text-shadow:1px 1px black;border-radius:6px;border:2px solid black; font-weight:bold;color:cornsilk" disabled="disabled">Pending</button>
+                                        {% endif %}
+                                    </td>
+                                    {% endfor %}
+                                </tr>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
+            </main>
+
+        </div>                                    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                
+                   
+    
+                <div id="a5" class="container-fluid px-4 bg-white" style="display:none">
+                    <!-- <h3>Visitor slip generation</h3> -->
+
+                    <div class="page-wrapper  p-t-130 p-b-100 font-poppins ">
+                        <div class="wrapper wrapper--w680">
+                            <div class="card card-4 " style="margin-top: -115px;">
+                                <div class="card-body">
+                                    <h2 class="title" style="font-weight:bold;color:rgb(54, 54, 118)">Visitor's Form</h2>
+                                    <form onsubmit="che()" method="POST" action="{% url 'visit'%}">
+                                    {% csrf_token %}
+                                        <div class="row row-space">
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <label class="label">Visitor's Name</label>
+                                                    <input class="input--style-4" type="text" name="visitor_name" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <label class="label">Relation with student</label>
+                                                    <input class="input--style-4" type="text" name="visitors_relation" required>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="row row-space">
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <label class="label">Arriving Date</label>
+                                                    <div class="input-group-icon">
+                                                        <input class="input--style-4 js-datepicker" type="date" name="arr_date" id="c" required>
+                                                        <i class="zmdi zmdi-calendar-note input-icon js-btn-calendar"></i>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <label class="label">Student ID</label>
+                                                    {% for i in data %}
+                                                    <input class="input--style-4" type="text" name="s_id" value="{{i.s_id}}">
+                                                    {% endfor %}
+                                                </div>
+                                            </div>
+                                           
+                                        <div class="row row-space">
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <label class="label">Number of visitor</label>
+                                                    <input class="input--style-4" type="number" name="no_of_visitors" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-2">
+                                                <div class="input-group">
+                                                    <label class="label">Vehicle</label>
+                                                    <input class="input--style-4" type="text" name="vehicle_no" required >
+                                                </div>
+                                            </div>
+                                        </div>
+                                           
+                                        <div class="p-t-15">
+                                            <button class="btn btn--radius-2" type="submit" style="background-color: rgb(54, 54, 118);">Submit</button>
+                                            <!-- <input type="submit" class="btn btn--radius-2" id="sub"  style="background-color: rgb(34, 34, 138);"><br>
+                                            <label></label> -->
+                                        </div>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        var el =document.getElementById("wrapper")
+        var toggleButton = document.getElementById("menu-toggle");
+        var toggleButton1 = document.getElementById("menu-toggle1")
+
+        toggleButton.onclick = function() {
+            el.classList.toggle("toggled")
+        }
+        toggleButton1.onclick = function() {
+            el.classList.toggle("toggled")
+            $(".smoothScroll").on('click',function(){
+            $(".menu-hide").trigger("click");
+            });
+        }
+    </script>
+
+    <script>
+        var showForm1 = function(id){
+        document.getElementById(id).style.display = '';
+        document.getElementById("a2").style.display= "none";
+        document.getElementById("a3").style.display= "none";
+        document.getElementById("a4").style.display= "none";
+        document.getElementById("a5").style.display= "none";
+       // document.getElementById("hide").onclick = function() {
+       // document.getElementById("a2").style.display = "none";
+        //}
+        }
+
+        var showForm2 = function(id){
+        document.getElementById(id).style.display = '';
+        document.getElementById("a1").style.display= "none";
+        document.getElementById("a3").style.display= "none";
+        document.getElementById("a4").style.display= "none";
+        document.getElementById("a5").style.display= "none";
+        //document.getElementById("hide").onclick = function() {
+        //document.getElementById("a1").style.display = "none";
+        //}
+        }
+
+        var showForm3 = function(id){
+         document.getElementById(id).style.display = '';
+         document.getElementById("a1").style.display= "none";
+         document.getElementById("a2").style.display= "none";
+         document.getElementById("a4").style.display= "none";
+         document.getElementById("a5").style.display= "none";
+        //document.getElementById("hide").onclick = function() {
+        //document.getElementById("a1").style.display = "none";
+        //}
+
+
+        var totn_string;
+        console.log(totn_string.link("home.html"));
+        }
+
+        var showForm4 = function(id){
+        document.getElementById(id).style.display = '';
+        document.getElementById("a1").style.display= "none";
+        document.getElementById("a3").style.display= "none";
+        document.getElementById("a2").style.display= "none";
+        document.getElementById("a5").style.display= "none";
+        //document.getElementById("hide").onclick = function() {
+        //document.getElementById("a1").style.display = "none";
+        //}
+        }
+
+        var showForm5 = function(id){
+        document.getElementById(id).style.display = '';
+        document.getElementById("a1").style.display= "none";
+        document.getElementById("a3").style.display= "none";
+        document.getElementById("a4").style.display= "none";
+        document.getElementById("a2").style.display= "none";
+        //document.getElementById("hide").onclick = function() {
+        //document.getElementById("a1").style.display = "none";
+        //}
+        }
+    </script>
+   
+    <!--Leave tracking-->
+    <script>
+        const one=document.querySelector(".one");
+        const two=document.querySelector(".two");
+        const three=document.querySelector(".three");
+        const four=document.querySelector(".four");
+        one.onclick=function(){
+            one.classList.add("active");
+            two.classList.remove("active");
+            three.classList.remove("active");
+            four.classList.remove("active");
+        }
+        two.onclick=function(){
+            one.classList.add("active");
+            two.classList.add("active");
+            three.classList.remove("active");
+            four.classList.remove("active");
+        }
+        three.onclick=function(){
+            one.classList.add("active");
+            two.classList.add("active");
+            three.classList.add("active");
+            four.classList.remove("active");
+        }
+        four.onclick=function(){
+            one.classList.add("active");
+            two.classList.add("active");
+            three.classList.add("active");
+            four.classList.add("active");
+        }
+    </script>
+    <!--Visitor's slip-->
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script>
+        /*function che(){
+           event.preventDefault();
+           swal({
+                       title: "Form Submitted Successfully!!",
+                       icon: "success",
+                       button: "Ok",
+                       timer:0
+               });
+               
+         }*/
+   </script>
+   <script>
+    var todayDate = new Date();
+    var month = todayDate.getMonth()+1;
+    var tdate = todayDate.getDate();
+    if (tdate < 10) {
+        tdate = '0' + tdate;
+    }
+    if (month <= 10) {
+        month = '0' + month; 
+        
+    }
+   
+    var year = todayDate.getUTCFullYear()-0; 
+    var minDate = year + "-" + month + "-" + tdate;
+    document.getElementById("c").setAttribute("min", minDate);
+    console.log(minDate);
+</script>
+    <script src="vendor/jquery/jquery.min.js"></script>
+
+    <script src="vendor/select2/select2.min.js"></script>
+    <script src="vendor/datepicker/moment.min.js"></script>
+    <script src="vendor/datepicker/daterangepicker.js"></script>
+
+   
+    <script src="js/global.js"></script>
+</body>
+</html>

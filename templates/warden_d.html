@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+     integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+     integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous"> 
+    <!--CDN link for tracking leave-->
+     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v4.0.0/css/line.css">
+
+    <link rel="stylesheet" href="styles.css">
+    <title>Warden Dashboard</title>
+   <style>
+/* dropdown */
+.dropdown-menu li{
+            position:relative;
+        }
+
+        .dropdown-menu .submenu{
+            display:none;
+            position:absolute;
+            left:100%;
+            top:30px;
+            color:blue;
+        }
+
+        .dropdown-menu>li:hover>.submenu{
+            display:block;
+        }
+
+        .down {
+            position: relative;
+            display: inline-block;
+        }
+
+       .dropdown-menu {
+           display: none;
+           position: absolute;
+           background-color: #f9f9f9;
+           min-width: 160px;
+           box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+           padding: 12px 16px;
+           z-index: 1;
+        }
+
+      .down:hover .dropdown-menu {
+           display: block;
+       }
+
+   
+
+        .img-responsive{
+            max-height:15%;
+            max-width:15%;
+            margin-right: 0;
+        }
+        :root{
+            --main-bg-color: #009d63;
+            --main-text-color:#009d63;
+            --second-text-color:#bbbec5;
+            --second-bg-color:#c1efde;
+        }
+        .primary-text{
+            color:var(--main-text-color);
+        }
+        .second-text{
+            color: var(--second-text-color);
+        }
+        .primary-bg{
+            background-color: var(--main-bg-color);
+        }
+        .secondary-bg{
+            background-color: var(--second-bg-color);
+        }
+        .rounded-full{
+            border-radius:100%;
+        }
+        #wrapper{
+            overflow-x:hidden;
+            background-image:linear-gradient(rgb(249, 166, 143), rgb(249, 228, 222));
+        }
+        #sidebar-wrapper{
+            min-height:100vh;
+            margin-left: -15rem;
+            transition:margin 0.25s ease-out;
+        }
+
+        #sidebar-wrapper .sidebar-heading{
+            padding:0.875rem 1.25rem;
+            font-size:1.2rem;
+        }
+        #sidebar-wrapper .list-group{
+            width:15rem;
+        }
+        #page-content-wrapper{
+            min-width:100vw;
+        }
+        #wrapper.toggled #sidebar-wrapper{
+            margin-left:0;
+        }
+        #menu-toggle{
+            cursor:pointer;
+        }
+        .list-group-item{
+            border:none;
+            padding: 20px 30px;
+        }
+        .list-group-item-active{
+            background-color:transparent;
+            color: var(--main-text-color);
+            font-weight:bold;
+            border:none;
+        }
+        @media (min-width:768px){
+            #sidebar-wrapper{
+                margin-left:0;
+            }
+            #page-content-wrapper{
+                min-width:0;
+                width:100%;
+            }
+            #wrapper.toggled #sidebar-wrapper{
+                margin-left:-15rem;
+            }
+        }
+
+        span{
+            color:white;
+        }
+    </style>
+    <style>
+        #a1, #a2, #a3{
+                margin:0;
+                padding: 0;
+                box-sizing: border-box;
+                font-family: sans-serif;
+            }
+            #a1, #a2, #a3{
+                min-height: 100vh;
+                background: linear-gradient(rgb(228, 217, 238), rgb(249, 166, 143));
+                display:flex;
+                justify-content: center;
+                align-items: center;
+            }
+            table{
+                width: 100%;
+            }
+            main.table {
+                width: 82vw;
+                height: 90vh;
+                background-color: #fff5;
+                box-shadow:0 .04rem .8rem #0005;
+                border-radius: .8rem;
+                overflow: hidden;
+            }
+            .table__header{
+                width:100%;
+                height:10%;
+                background-color: #fff4;
+                padding: .8rem 1rem;
+            }
+            .table__body{
+                width: 95%;
+                max-height: calc(89% - .8rem);
+                background-color: #fffb;
+                margin: .8rem auto;
+                border-radius: .6rem;
+                overflow: auto;
+            }
+            .table__body::-webkit-scrollbar{
+                width: 0.5rem;
+                height:0.5rem;
+            }
+            .table__body::-webkit-scrollbar-thumb{
+                border-radius: .5rem;
+                background-color: #0004;
+                visibility: hidden;
+            }
+            table, th, td{
+                padding: 1rem;
+                border-collapse: collapse;
+            }
+            thead th{
+                position: sticky;
+                top:0;
+                left:0;
+                background-color: #d5d1defe;
+            }
+            tbody tr:nth-child(even){
+                background-color: #0000000b;
+            }
+            tbody tr:hover{
+                background-color: #fff6;
+            }
+            .a{
+                background-color: rgb(7, 185, 7);
+                padding: 7%;
+                font-size: 14px;
+                font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+               
+                }
+            .r{
+                background-color:black;
+                padding: 8.5%;
+                margin-top: 5%;
+                font-size: 14px;
+                font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+                color:white;
+                font-weight: bold;
+                
+            }
+           
+            .r:hover{
+                background-color: rgb(35, 176, 35);
+                color:black;
+                font-weight: bold;
+            }
+            tbody input{
+                border: 0;
+                /*text-align: center;*/
+            }
+
+            .a a{
+                text-decoration:none;
+                font-size:14px;
+                color:black;
+            }
+    </style>
+</head>
+<body>
+<!-- nav bar -->
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top h-78">
+    <div class="container">
+        <img src="{% static 'images2023\Banasthali_Vidyapeeth_Logo (1).png' %}" alt="Logo" width="60" height="60"><span>E</span>
+        <a class="navbar-brand" href="#" style=font-size:30px;>Banasthali Vidyapith</a> <button aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler" data-bs-target="#navbarSupportedContent" data-bs-toggle="collapse" type="button"><span class="navbar-toggler-icon"></span></button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://www.banasthali.org/banasthali/wcms/en/home/" target="_main">About Us</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://www.banasthali.org/banasthali/wcms/en/home/lower-menu/campus-tour/index.html" target="_blank">Campus&Facilities</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="http://banasthali.org/banasthali/wcms/en/home/school-education/index.html">Acadamics</a>
+                </li>
+                
+                <li class="nav-item">
+                    <a class="nav-link" href="#contact">Contact</a>
+                </li>
+
+                <li class="nav-item">
+                    <a class="nav-link" href=""{% url 'logout2'%}"">Logout</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+<br><br><br>
+
+    <div class="d-flex" id="wrapper">
+
+        <!--Sidebar starts here-->
+
+        <div class="bg-white" id="sidebar-wrapper">
+           
+            <div class="pic sidebar-heading text-center py-4 primary-text fs-4 fw-bold text-uppercase">
+                <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-layout-text-sidebar-reverse fa-sm fw-bold" id="menu-toggle" onclick="hide('menu-toggle')" viewBox="0 0 16 16">
+                    <path d="M12.5 3a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5zm0 3a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5zm.5 3.5a.5.5 0 0 0-.5-.5h-5a.5.5 0 0 0 0 1h5a.5.5 0 0 0 .5-.5zm-.5 2.5a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1h5z"/>
+                    <path d="M16 2a2 2 0 0 0-2-2H2a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2zM4 1v14H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h2zm1 0h9a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H5V1z"/>
+                  </svg> Dashboard
+            </div>
+
+            <div class="list-group list-group-flush my-3">
+                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold" onclick="showForm1('a1')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-check-fill me-2" viewBox="0 0 16 16">
+                        <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zm1.354 4.354-3 3a.5.5 0 0 1-.708 0l-1.5-1.5a.5.5 0 1 1 .708-.708L7.5 9.793l2.646-2.647a.5.5 0 0 1 .708.708z"/>
+                      </svg>Going Alone 
+                    
+                </a>
+                <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold" onclick="showForm2('a2')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-file-earmark-excel-fill me-2" viewBox="0 0 16 16">
+                        <path d="M9.293 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2V4.707A1 1 0 0 0 13.707 4L10 .293A1 1 0 0 0 9.293 0zM9.5 3.5v-2l3 3h-2a1 1 0 0 1-1-1zM5.884 6.68 8 9.219l2.116-2.54a.5.5 0 1 1 .768.641L8.651 10l2.233 2.68a.5.5 0 0 1-.768.64L8 10.781l-2.116 2.54a.5.5 0 0 1-.768-.641L7.349 10 5.116 7.32a.5.5 0 1 1 .768-.64z"/>
+                      </svg>Not going Alone
+                </a>
+                {% comment %} <a href="#" class="list-group-item list-group-item-action bg-transparent second-text fw-bold" onclick="showForm3('a3')">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-clock-history me-2" viewBox="0 0 16 16">
+                        <path d="M8.515 1.019A7 7 0 0 0 8 1V0a8 8 0 0 1 .589.022l-.074.997zm2.004.45a7.003 7.003 0 0 0-.985-.299l.219-.976c.383.086.76.2 1.126.342l-.36.933zm1.37.71a7.01 7.01 0 0 0-.439-.27l.493-.87a8.025 8.025 0 0 1 .979.654l-.615.789a6.996 6.996 0 0 0-.418-.302zm1.834 1.79a6.99 6.99 0 0 0-.653-.796l.724-.69c.27.285.52.59.747.91l-.818.576zm.744 1.352a7.08 7.08 0 0 0-.214-.468l.893-.45a7.976 7.976 0 0 1 .45 1.088l-.95.313a7.023 7.023 0 0 0-.179-.483zm.53 2.507a6.991 6.991 0 0 0-.1-1.025l.985-.17c.067.386.106.778.116 1.17l-1 .025zm-.131 1.538c.033-.17.06-.339.081-.51l.993.123a7.957 7.957 0 0 1-.23 1.155l-.964-.267c.046-.165.086-.332.12-.501zm-.952 2.379c.184-.29.346-.594.486-.908l.914.405c-.16.36-.345.706-.555 1.038l-.845-.535zm-.964 1.205c.122-.122.239-.248.35-.378l.758.653a8.073 8.073 0 0 1-.401.432l-.707-.707z"/>
+                        <path d="M8 1a7 7 0 1 0 4.95 11.95l.707.707A8.001 8.001 0 1 1 8 0v1z"/>
+                        <path d="M7.5 3a.5.5 0 0 1 .5.5v5.21l3.248 1.856a.5.5 0 0 1-.496.868l-3.5-2A.5.5 0 0 1 7 9V3.5a.5.5 0 0 1 .5-.5z"/>
+                      </svg>View History
+                </a> {% endcomment %}
+            </div>
+
+        </div>
+        <!--Sidebar ends here-->
+        <div id="page-content-wrapper">
+            <br>
+            <nav class="navbar navbar-expand-lg navbar-light bg-transparent py-4 px-4">
+                <div class="d-flex align-items-center">
+                    <i class="fas fa-align-left primary-text fs-4 me-3" id="menu-toggle1" onclick="show('menu-toggle1')"></i>
+                    
+                </div>
+
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#navbarSupportContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                </button>
+            </nav>
+
+            <div class="container-fluid px-4 bg-white" id="a1" >
+                <!--<h3>Going alone</h3>-->
+
+                <main class="table">
+                    <section class="table__header">
+                        <h1>Generate Gatepass(Going Alone)</h1>
+                    </section>
+                    <section class="table__body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    
+                                    <th> Smartcard ID</th>
+                                    <th> Name</th>
+                                    <th> From date</th>
+                                    <th> To date</th>
+                                    <th> No. of Days</th>
+                                    <th> Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for i in data %}
+                                <tr>
+                               
+                                
+                                    
+                                   
+                                    {% if i.is_approved == 1 %}
+                                        {% if i.go_alone == True %}
+                                            <form method="POST" action="{% url 'generate' i_id=i.id %}">
+                                {% csrf_token %}
+                                    <td><input style="width:97px" type=text placeholder="smartcard id" value="{{i.s_id}}" disabled name="id"></td>
+                                    <td><input style="width:150px" type=text placeholder="name" value="{{i.s_name}}" disabled name="name"></td>
+                                    <td><input style="width:120px" type=text placeholder="start date" value="{{i.s_date}}" disabled name="sdate"></td>
+                                    <td><input style="width:95px" type=text placeholder="end date" value="{{i.e_date}}" disabled name="edate"></td>
+                                    <td><input style="width:50px" type=number placeholder="no. of days" value="{{i.nod}}" disabled name="nods"><input type="text" style="display:none" value="NO" name="go_alone"></td>
+                                    <td>       {% if i.gatepass_generated == False %}
+                                                    <a href="{% url 'generate' i_id=i.id %}" type="submit" value="True" style="background-color:LimeGreen;border-radius:6px; border:2px solid black;text-align:center;text-decoration:none; font-weight:bold;color:black" class="a" name="gatepass_generated">Generate GatePass</a>
+                                                {% else %}
+                                                     <button class="btn btn-danger" disabled="disabled">Generated</button>
+                                                {% endif%}</td>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                </tr>
+                                </form>
+                            </tbody>
+                        </table>
+                    </section>
+                </main>
+
+            </div>
+              
+            <div id="a2" class="container-fluid px-4 bg-white" style="display:none">
+                <!--<h3>Not going alone</h3>-->
+
+                <main class="table">
+                    <section class="table__header">
+                        <h1>Generate Gatepass(Not Going Alone)</h1>
+                    </section>
+                    <section class="table__body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    
+                                    <th> Smartcard ID</th>
+                                    <th> Name</th>
+                                    <th> From date</th>
+                                    <th> To date</th>
+                                    <th> No. of Days</th>
+                                    <th> Action</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                 {% for i in data %}
+                                <tr>
+                                
+                               
+                                
+                                    {% if i.is_approved == 1 %}
+                                        {% if i.go_alone == False %}
+                                            <form method="POST" action="{% url 'generate' i_id=i.id %}">
+                                {% csrf_token %}
+                                    
+                                    <td><input style="width:97px" type=text placeholder="smartcard id" value="{{i.s_id}}" name="id" disabled></td>
+                                    <td><input style="width:150px" type=text placeholder="name" value="{{i.s_name}}" name="name" disabled></td>
+                                    <td><input style="width:120px" type=text placeholder="start date" value="{{i.s_date}}" name="sdate" disabled></td>
+                                    <td><input style="width:95px" type=text placeholder="end date" value="{{i.e_date}}" name="edate" disabled></td>
+                                    <td><input style="width:50px" type=number placeholder="no. of days" value="{{i.nod}}" name="nods" disabled><input type="text" style="display:none" value="NO" name="go_alone"></td>
+                                    <td>
+                                                {% if i.gatepass_generated == False %}
+                                                    <a href="{% url 'generate' i_id=i.id %}" type="submit" value="True" style="background-color:LimeGreen;border-radius:6px; border:2px solid black;text-align:center;text-decoration:none; font-weight:bold;color:black" class="a" name="gatepass_generated">Generate GatePass</a>
+                                                {% else %}
+                                                    <button class="btn btn-danger" disabled="disabled">Generated</button>
+                                                {% endif%}                             
+                                    </td>
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                                </form>
+                                </tr>
+                                
+                            </tbody>
+                        </table>
+                    </section>
+                </main>
+
+            </div>
+
+            {% comment %} <div id="a3" class="container-fluid px-4 bg-white" style="display:none">
+                <!--<h3>Leave History</h3>-->
+
+                <main class="table">
+                    <section class="table__header">
+                        <h1>History of generated GatePasses</h1>
+                    </section>
+                    <section class="table__body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th> Sr no.</th>
+                                    <th> Smartcard ID</th>
+                                    <th> Name</th>
+                                    <th> From date</th>
+                                    <th> To date</th>
+                                    <th> No. of Days</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>1</td>
+                                    <td><input type=text ></td>
+                                    <td><input type=text ></td>
+                                    <td><input type=date ></td>
+                                    <td><input type=date ></td>
+                                    <td><input type=number ></td>
+                                </tr>
+                            </tbody>
+                        </table> {% endcomment %}
+                    </section>
+                </main>
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" 
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+    <script>
+        var el =document.getElementById("wrapper")
+        var toggleButton = document.getElementById("menu-toggle");
+        var toggleButton1 = document.getElementById("menu-toggle1")
+
+        toggleButton.onclick = function() {
+            el.classList.toggle("toggled")
+        }
+        toggleButton1.onclick = function() {
+            el.classList.toggle("toggled")
+            $(".smoothScroll").on('click',function(){
+            $(".menu-hide").trigger("click");
+            });
+        }
+    </script>
+
+    <script>
+        var showForm1 = function(id){
+        document.getElementById(id).style.display = '';
+        document.getElementById("a2").style.display= "none";
+        document.getElementById("a3").style.display= "none";
+        //document.getElementById("a4").style.display= "none";
+        //document.getElementById("a5").style.display= "none";
+       // document.getElementById("hide").onclick = function() {
+       // document.getElementById("a2").style.display = "none";
+        //}
+        }
+
+        var showForm2 = function(id){
+        document.getElementById(id).style.display = '';
+        document.getElementById("a1").style.display= "none";
+        document.getElementById("a3").style.display= "none";
+       // document.getElementById("a4").style.display= "none";
+       // document.getElementById("a5").style.display= "none";
+        //document.getElementById("hide").onclick = function() {
+        //document.getElementById("a1").style.display = "none";
+        //}
+        }
+
+        var showForm3 = function(id){
+        document.getElementById(id).style.display = '';
+        document.getElementById("a1").style.display= "none";
+        document.getElementById("a2").style.display= "none";
+        //document.getElementById("a4").style.display= "none";
+        //document.getElementById("a5").style.display= "none";
+        //document.getElementById("hide").onclick = function() {
+        //document.getElementById("a1").style.display = "none";
+        //}
+        }
+    </script>
+    <script>
+        var hide = function(id){
+        document.getElementById(id).style.visibility = "hidden";
+        document.getElementById("menu-toggle1").style.visibility = "visible";
+        }
+
+        var show = function(id){
+        document.getElementById(id).style.visibility = "hidden";
+        document.getElementById("menu-toggle").style.visibility = "visible";
+        }
+    </script>
+</body>
+</html>
